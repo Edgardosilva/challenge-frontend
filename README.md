@@ -1,7 +1,7 @@
 # 🎯 SWAG Frontend Challenge
 
 **Tiempo utilizado para la prueba:** 90 minutos exactos
-**Objetivo:** Crear un mini catálogo de productos funcional con React + TypeScript
+
 
 ---
 
