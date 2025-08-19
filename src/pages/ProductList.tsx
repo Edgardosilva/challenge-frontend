@@ -22,11 +22,15 @@ const ProductList = () => {
 
     // Search filter
     if (search) {
-      filtered = filtered.filter(product => 
-        product.name.includes(search) ||
-        product.sku.includes(search)
-      )
+      const normalize = (str: string) =>
+        str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+      filtered = filtered.filter(product =>
+        normalize(product.name).includes(normalize(search)) ||
+        product.sku.toLowerCase().includes(search.toLowerCase())
+      );
     }
+
 
     // Sorting logic
     switch (sort) {
