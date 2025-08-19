@@ -10,6 +10,10 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
   const [quantity, setQuantity] = useState<number>(1)
   const [selectedBreak, setSelectedBreak] = useState<number>(0)
 
+// Quantity helpers:
+  const maxStock = Number.isFinite(product?.stock) ? product.stock : 10000;
+  const clamp = (v: number) => Math.max(1, Math.min(v, maxStock));
+
   // Calculate best pricing for quantity
   const calculatePrice = (qty: number) => {
     if (!product.priceBreaks || product.priceBreaks.length === 0) {
@@ -62,14 +66,20 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
         <div className="quantity-section">
           <label className="quantity-label p1-medium">Cantidad</label>
           <div className="quantity-input-group">
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-              className="quantity-input p1"
-              min="1"
-              max="10000"
-            />
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => {
+              const val = parseInt(e.target.value, 10);
+              setQuantity(clamp(Number.isFinite(val) ? val : 1));
+            }}
+            onBlur={() => setQuantity(q => clamp(q))}  // corrige si quedó algo inválido
+            className="quantity-input p1"
+            min={1}
+            max={maxStock}
+            inputMode="numeric"
+            pattern="[0-9]*"
+          />
             <span className="quantity-unit l1">unidades</span>
           </div>
         </div>

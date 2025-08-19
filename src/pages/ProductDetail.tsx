@@ -47,6 +47,8 @@ const ProductDetail = () => {
   // Validate product status
   const canAddToCart = product.status === 'active' && product.stock > 0
 
+  const clamp = (q: number, stock: number) => Math.max(1, Math.min(q, stock));
+
   return (
     <div className="product-detail-page">
       <div className="container">
@@ -160,20 +162,24 @@ const ProductDetail = () => {
                 <label className="quantity-label l1">Cantidad:</label>
                 <div className="quantity-controls">
                   <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    onClick={() => setQuantity(q => clamp(q - 1, product.stock))}
                     className="quantity-btn"
                   >
                     <span className="material-icons">remove</span>
                   </button>
-                  <input 
-                    type="number" 
-                    value={quantity} 
-                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="quantity-input"
-                    min="1"
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      setQuantity(clamp(Number.isFinite(val) ? val : 1, product.stock));
+                    }}
+                    onBlur={() => setQuantity(q => clamp(q, product.stock))}
+                    min={1}
+                    max={product.stock}
                   />
                   <button 
-                    onClick={() => setQuantity(quantity + 1)}
+                    onClick={() => setQuantity(q => clamp(q + 1, product.stock))}
                     className="quantity-btn"
                   >
                     <span className="material-icons">add</span>
