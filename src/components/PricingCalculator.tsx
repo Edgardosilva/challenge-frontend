@@ -46,8 +46,14 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
 
   // Format price display
   const formatPrice = (price: number) => {
-    return `$${price.toLocaleString()}` // Should be CLP formatting
-  }
+    return new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP',
+      currencyDisplay: 'code', 
+      maximumFractionDigits: 0
+    }).format(price);
+  };
+  
 
   const currentPrice = calculatePrice(quantity)
   const discountPercent = getDiscount(quantity)
@@ -182,7 +188,7 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
             <span className="material-icons">local_shipping</span>
             <div className="info-content">
               <span className="info-title l1">Envío gratis</span>
-              <span className="info-detail l1">En pedidos sobre $50.000</span>
+              <span className="info-detail l1">En pedidos sobre CLP 50.000</span>
             </div>
           </div>
           
