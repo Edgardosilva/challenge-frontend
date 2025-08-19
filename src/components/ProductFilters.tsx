@@ -64,16 +64,18 @@ const ProductFilters = ({
         {/* Sort Options */}
         <div className="filter-section">
           <h3 className="filter-title p1-medium">Ordenar por</h3>
-          <select 
-            value={sortBy} 
+          <select
+            value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
             className="sort-select p1"
           >
             <option value="name">Nombre A-Z</option>
-            <option value="price">Precio</option>
+            <option value="price-asc">Precio (menor a mayor)</option>
+            <option value="price-desc">Precio (mayor a menor)</option>
             <option value="stock">Stock disponible</option>
           </select>
         </div>
+
 
         {/* Quick Stats - Bug: hardcoded values instead of dynamic */}
         <div className="filter-section">
